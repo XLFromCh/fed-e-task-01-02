@@ -44,13 +44,47 @@ console.log(spaceFilter(['test', 'test dadad']))  */
     Hello World => hello-world
     point free模式实际上就是函数组合
     */
-    const fp=require('lodash/fp')
+const fp = require('lodash/fp')
 /* 
     const f= fp.flowRight(fp.replace(/\s+/g,'_'),fp.toLower)
     console.log('12313')
     console.log(f( 'Hello                  World *' )) */
 
- /*    const firstLetterToUpper=fp.flowRight(fp.join('-'),fp.map(fp.first),fp.map(fp.toUpper),fp.split(' '))
-    console.log(firstLetterToUpper('Hello World For WWW')) */
+/*    const firstLetterToUpper=fp.flowRight(fp.join('-'),fp.map(fp.first),fp.map(fp.toUpper),fp.split(' '))
+   console.log(firstLetterToUpper('Hello World For WWW')) */
+
+class MayBe {
+    static of(value) {
+        return new MayBe(value)
+    }
+    constructor(value) {
+        this._value = value
+    }
+
+    map(fn) {
+        return this.isNoting === null ? MayBe.of(null) : MayBe.of(fn(this._value))
+    }
+
+    isNoting() {
+        return this._value === null || this._value === undefined
+    }
+}
+
+let r = MayBe.of(5).map((x) => x + x).map(x => x * x).map(x => null)
+console.log(r)
 
 
+class IO {
+    static of(value) {
+        return new IO(function () {
+            return value
+        })
+    }
+    constructor(fn) {
+        this._value = fn
+    }
+
+    map(fn) {
+        return new IO(fp.flowRight(fn, this._value))
+    }
+}
