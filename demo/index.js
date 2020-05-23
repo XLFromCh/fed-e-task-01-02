@@ -53,7 +53,7 @@ const fp = require('lodash/fp')
 /*    const firstLetterToUpper=fp.flowRight(fp.join('-'),fp.map(fp.first),fp.map(fp.toUpper),fp.split(' '))
    console.log(firstLetterToUpper('Hello World For WWW')) */
 
-class MayBe {
+/* class MayBe {
     static of(value) {
         return new MayBe(value)
     }
@@ -87,4 +87,6 @@ class IO {
     map(fn) {
         return new IO(fp.flowRight(fn, this._value))
     }
-}
+} */
+
+const { compose, curry } = require('folktale/core/lambda')
